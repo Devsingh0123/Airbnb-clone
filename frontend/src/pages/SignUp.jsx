@@ -1,0 +1,120 @@
+import React, { useContext, useState } from "react";
+
+import { MdRemoveRedEye } from "react-icons/md";
+import { IoEyeOff } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+
+import { FaLongArrowAltLeft } from "react-icons/fa";
+import { authDataContext } from "../context/AuthContext";
+import axios from "axios"
+
+const SignUp = () => {
+  let [show, setShow] = useState(false);
+    let navigate = useNavigate();
+    let [name,setName ]= useState("")
+    let [email,setEmail ]= useState("")
+    let [password,setPassword ]= useState("")
+
+
+
+    let {serverUrl} = useContext(authDataContext)
+
+    const handleSignUp = async (e) =>{
+      try {
+        e.preventDefault()
+        let result = await axios.post(serverUrl + "/api/auth/signup", {
+            name,
+            email,
+            password
+        })
+        console.log(result.data);
+        
+      } catch (error) {
+        console.log(error);
+        
+      }
+    }
+
+
+
+
+
+  return (
+    <div className="w-screen h-screen flex items-center justify-center relatiive ">
+      <div className="w-[40px] h-[40px] cursor-pointer bg-[#FF385C] absolute  top-[5%] left-[5px] md:w-[50px] md:h-[50px] md:top-[10%] md:left-[20px]  rounded-[50%] flex items-center justify-center cursor-pointer" onClick={()=> navigate("/")}>
+    
+    <FaLongArrowAltLeft className="w-[20px] h-[20px] text-[#FFFFFA] md:w-[25px] md:h-[25px] "/>
+      </div>
+      
+      
+      <form
+        action=""
+        className=" max-w-[900px] w-[90%] h-[600px] flex  flex-col justify-center items-center md:items-start gap-[10px]  "
+
+        onSubmit={handleSignUp}
+      >
+        <h1 className="text-[30px] text-[black]  ">Welcome to Airbnb</h1>
+        <div className="w-[90%] flex items-start justify-start gap-[10px] flex-col mt-[30px] ">
+          <label className="text-[20px]" htmlFor="name">
+            UserName
+          </label>
+          <input
+            className="w-[90%] h-[40px] border-[2px] border-[#555656] rounded-lg px-[20px] text-[18px]"
+            type="text"
+            id="name"
+            required
+            onChange={(e)=>setName(e.target.value)}
+            value={name}
+          />
+        </div>
+        <div className="w-[90%] flex items-start justify-start gap-[10px] flex-col ">
+          <label className="text-[20px]" htmlFor="email">
+            Email
+          </label>
+          <input
+            className="w-[90%] h-[40px] border-[2px] border-[#555656] rounded-lg px-[20px] text-[18px]"
+            type="email"
+            id="email"
+            required
+            onChange={(e)=>setEmail(e.target.value)}
+            value={email}
+          />
+        </div>
+        <div className="w-[90%] flex items-start justify-start gap-[10px] flex-col relative ">
+          <label className="text-[20px]" htmlFor="password">
+            Password
+          </label>
+          <input
+            className="w-[90%] h-[40px] border-[2px] border-[#555656] rounded-lg px-[20px] text-[18px]"
+            type={show ? "text" : "password"}
+            id="password"
+            required
+            onChange={(e)=>setPassword(e.target.value)}
+            value={password}
+          />
+          {!show && (
+            <MdRemoveRedEye
+              className="w-[22px] h-[22px] absolute right-[12%] bottom-[10px] cursor-pointer "
+              onClick={() => setShow((prev) => !prev)}
+            />
+          )}
+
+          {show && (
+            <IoEyeOff
+              className="w-[22px] h-[22px] absolute right-[12%] bottom-[10px]  cursor-pointer "
+              onClick={() => setShow((prev) => !prev)}
+            />
+          )}
+        </div>
+        <button className="px-[50px] py-[10px] bg-[#FF385C] text-[#FFFFFA]   text-[18px] md:px-[100px] rounded-lg ">
+          SignUp
+        </button>
+        <p className="text-[18px]">Already have an acccount? <span
+            className="text-[20px] text-[#FF385C] cursor-pointer" onClick={()=>navigate("/login")} >Login</span></p>
+            
+      </form>
+    </div>
+  );
+};
+
+export default SignUp;

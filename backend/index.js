@@ -1,16 +1,21 @@
 import express from "express";
 import dotenv from "dotenv";
 import connectDb from "./config/db.js";
+import authRouter from "./routes/auth.route.js";
+import cookieParser from "cookie-parser";
 dotenv.config();
+import cors from "cors";
 
 let app = express();
 let port = process.env.PORT || 7000;
 
+app.use(express.json());
+app.use(cookieParser());
+app.use(cors())
 
 
-app.get("/", (req, res)=>{
-res.send("hello this is server")
-})
+
+app.use("/api/auth", authRouter)
 
 app.listen(port , ()=>{
     connectDb();
