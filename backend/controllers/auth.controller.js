@@ -2,6 +2,9 @@ import genToken from "../config/token.js";
 import User from "../model/user.model.js";
 import bcrypt from "bcryptjs";
 
+
+
+//signup controller
 export const signUp = async (req, res) => {
   try {
     let { name, email, password } = req.body;
@@ -15,7 +18,7 @@ export const signUp = async (req, res) => {
     let user = await User.create({ name, email, password: hashPassword });
 
 
-    let token = genToken(user._id);
+    let token =  genToken(user._id);
     res.cookie("token", token, { maxAge: 7 * 24 * 60 * 60 * 1000 });
 
     return res.status(201).json(user);
@@ -24,16 +27,18 @@ export const signUp = async (req, res) => {
   }
 };
 
+
+//login controller
 export const logIn = async (req,res)=>{
 
       try {
 
-      console.log(req.body);
+      // console.log(req.body);
       
    let { email, password } = req.body;
 
-   console.log(email);
-   console.log(password);
+  //  console.log(email);
+  //  console.log(password);
    
 
     let user = await User.findOne({ email });
@@ -55,8 +60,22 @@ export const logIn = async (req,res)=>{
 
         
     } catch (error) {
-        console.log(res.status(500).json({ message: `error in login ${error}`}));
+        res.status(500).json({ message: `error in login ${error}`});
         
     }
 
 }
+
+
+
+//logout controller
+
+export const logOut = async (req, res) => {
+  try {
+    res.clearCookie("token");
+
+    return res.status(200).json({ message: "logout successfullly" });
+  } catch (error) {
+    res.status(500).json({ message: `logout error ${error}` });
+  }
+};

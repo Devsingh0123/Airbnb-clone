@@ -5,17 +5,21 @@ import authRouter from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
 dotenv.config();
 import cors from "cors";
+import userRouter from "./routes/user.route.js";
 
 let app = express();
 let port = process.env.PORT || 7000;
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors())
+app.use(cors({ origin: "http://localhost:5173", // your frontend URL
+  credentials: true
+}))
 
 
 
 app.use("/api/auth", authRouter)
+app.use("/api/user", userRouter)
 
 app.listen(port , ()=>{
     connectDb();

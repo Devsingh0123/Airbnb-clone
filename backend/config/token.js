@@ -1,10 +1,10 @@
 import jwt from "jsonwebtoken";
 
-const genToken = async (userId) => {
+const genToken =  (userId) => {
   try {
-    console.log(userId);
+    // console.log(userId);
 
-    let token = await jwt.sign({ userId }, process.env.JWT_SECRET, {
+    let token =  jwt.sign({ userId }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
     return token;
