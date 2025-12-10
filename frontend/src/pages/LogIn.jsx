@@ -7,6 +7,7 @@ import { FaLongArrowAltLeft } from "react-icons/fa";
 import { authDataContext } from "../context/AuthContext";
 import axios from "axios";
 import { userDataContext } from "../context/UserContext";
+import axiosInstance from "../utils/api";
 
 const LogIn = () => {
   let [show, setShow] = useState(false);
@@ -39,6 +40,17 @@ const LogIn = () => {
       console.log(error);
     }
   };
+
+  // const apifetch = async () => {
+  //   try{
+  //     let res = await axiosInstance.post("/api/auth/login", {email, password});
+  //     if(res.success){
+        
+  //     }
+  //   }catch{
+
+  //   }
+  // }
 
   return (
     <div className="w-screen h-screen flex items-center justify-center relative ">
