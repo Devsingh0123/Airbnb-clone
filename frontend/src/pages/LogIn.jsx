@@ -7,7 +7,7 @@ import { FaLongArrowAltLeft } from "react-icons/fa";
 import { authDataContext } from "../context/AuthContext";
 import axios from "axios";
 import { userDataContext } from "../context/UserContext";
-import axiosInstance from "../utils/api";
+
 
 const LogIn = () => {
   let [show, setShow] = useState(false);
