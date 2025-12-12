@@ -29,6 +29,10 @@ const SignUp = () => {
         },{withCredentials: true})
         console.log(result.data);
         navigate("/login")
+
+        setName("")
+        setEmail("")
+        setPassword("")
         
       } catch (error) {
         console.log(error);

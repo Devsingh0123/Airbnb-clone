@@ -34,23 +34,15 @@ const LogIn = () => {
         { withCredentials: true }
       );
       console.log(result);
-      setUserData(result.data)
-      navigate("/")
+      setUserData(result.data);
+      navigate("/");
+      setEmail("")
+      setPassword("")
     } catch (error) {
       console.log(error);
+      
     }
   };
-
-  // const apifetch = async () => {
-  //   try{
-  //     let res = await axiosInstance.post("/api/auth/login", {email, password});
-  //     if(res.success){
-        
-  //     }
-  //   }catch{
-
-  //   }
-  // }
 
   return (
     <div className="w-screen h-screen flex items-center justify-center relative ">

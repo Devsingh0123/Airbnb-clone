@@ -30,14 +30,20 @@ const ListingPage1 = () => {
   } = useContext(listingDataContext);
 
   const handleImage1 = (e) => {
-    let file = e.target.file[0];
+    
+    
+    let file = e.target.files[0];
+   
 
     setBackEndImage1(file);
     setFrontEndImage1(URL.createObjectURL(file));
+
+    
+    
   };
 
   const handleImage2 = (e) => {
-    let file = e.target.file[0];
+    let file = e.target.files[0];
 
     setBackEndImage2(file);
     setFrontEndImage2(URL.createObjectURL(file));
@@ -74,6 +80,7 @@ const ListingPage1 = () => {
             required
             onChange={(e) => setTitle(e.target.value)}
             value={title}
+            placeholder="name of property or title"
           />
         </div>
 
@@ -97,11 +104,12 @@ const ListingPage1 = () => {
           </label>
           <div className=" flex items-center justify-start w-[90%] h-[40px] border-[#555656] border-2 rounded-[10px] ">
             <input
-              className="w-[100%]  px-[10px] text-[15px]"
+              className="w-[100%]  px-[10px] text-[15px]  file:bg-[#FF385C] file:rounded-md file:px-2 file:py-1 file:cursor-pointer"
               type="file"
               id="image1"
               required
               onChange={handleImage1}
+              name="image1"
             />
           </div>
         </div>
@@ -112,11 +120,12 @@ const ListingPage1 = () => {
           </label>
           <div className=" flex items-center justify-start w-[90%] h-[40px] border-[#555656] border-2 rounded-[10px] ">
             <input
-              className="w-[100%]  px-[10px] text-[15px]"
+              className="w-[100%]  px-[10px] text-[15px] file:bg-[#FF385C] file:rounded-md file:px-2 file:py-1 file:cursor-pointer"
               type="file"
               id="image2"
               required
               onChange={handleImage2}
+              name="image2"
             />
           </div>
         </div>
@@ -132,6 +141,7 @@ const ListingPage1 = () => {
             required
             onChange={(e) => setRent(e.target.value)}
             value={rent}
+            placeholder="Rs._______/day"
           />
         </div>
 
@@ -146,6 +156,7 @@ const ListingPage1 = () => {
             required
             onChange={(e) => setCity(e.target.value)}
             value={city}
+            placeholder="city,state,country"
           />
         </div>
 
@@ -171,3 +182,9 @@ const ListingPage1 = () => {
 };
 
 export default ListingPage1;
+
+
+
+
+
+
