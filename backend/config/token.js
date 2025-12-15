@@ -8,6 +8,7 @@ const genToken =  (userId) => {
       expiresIn: "7d",
     });
     return token;
+    
   } catch (error) {
     console.log(`error in token generation ${error}`);
   }

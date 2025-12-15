@@ -13,11 +13,8 @@ let port = process.env.PORT || 7000;
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: ["http://localhost:5173",
-  "https://airbnb-clone-delta-pink.vercel.app"
-],
-  credentials: true, //  frontend URL
-  
+app.use(cors({ origin: "http://localhost:5173", // your frontend URL
+  credentials: true
 }))
 
 

@@ -27,14 +27,14 @@ const ListingPage3 = () => {
     setLandMark,
     category,
     setCategory, handleAddlisting,
-    dataLoading, setDataLoading
+    dataAddingLoadder, setDataAddingLoadder
   } = useContext(listingDataContext);
 
  
   return (
     <div className=" w-[100%] h-[100vh]  flex items-center justify-center relative overflow-auto ">
       <div
-        className="w-[40px] h-[40px] cursor-pointer bg-[#FF385C] absolute  top-[5%] left-[5px] md:w-[50px] md:h-[50px] md:top-[5%] md:left-[20px]  rounded-[50%] flex items-center justify-center cursor-pointer"
+        className="w-[40px] h-[40px] cursor-pointer bg-[#FF385C] absolute  top-[5%] left-[5px] md:w-[50px] md:h-[50px] md:top-[5%] md:left-[20px]  rounded-[50%] flex items-center justify-center"
         onClick={() => navigate("/listingPage2")}
       >
         <FaLongArrowAltLeft className="w-[20px] h-[20px] text-[#FFFFFA] md:w-[25px] md:h-[25px] " />
@@ -74,9 +74,9 @@ const ListingPage3 = () => {
 
         <button
           className="px-[50px] py-[10px] bg-[#FF385C] text-[#FFFFFA]   text-[18px] md:px-[100px] rounded-lg mt-[15px]  right-[10%] bottom-[10%] "
-          onClick={handleAddlisting} disabled={dataLoading}
+          onClick={handleAddlisting} disabled={dataAddingLoadder}
         >
-         {dataLoading? "Adding...":"Add Listing"}
+         {dataAddingLoadder? "Adding...":"Add Listing"}
         </button>
 
       </div>

@@ -8,8 +8,10 @@ const Home = () => {
   return (
     <div>
       <Nav />
+
+      
       <div className=" w-[100vw] h-[75vh] flex items-center justify-center gap-[25px] flex-wrap mt-[250px] md:mt-[180px] ">
-        {newGetListingData.map((list) => (
+        {newGetListingData.map((list, i) => (
           <Card
             title={list.title}
             description={list.description}
@@ -20,6 +22,8 @@ const Home = () => {
             landMark={list.landMark}
             category={list.category}
             id={list._id}
+            key={i}
+            
           />
         ))}
       </div>

@@ -3,7 +3,7 @@ import  jwt  from "jsonwebtoken";
 const isAuth = async (req, res, next) => {
   try {
     let { token } = req.cookies;
-    console.log(token);
+    console.log("this is tocken from isAuth middleware",token);
 
    
 

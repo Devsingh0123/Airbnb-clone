@@ -55,6 +55,8 @@ const Nav = () => {
         <div>
           <img src={Airbnb_logo} alt="Airbnb_logo" className="w-[130px]" />
         </div>
+
+        {/* search bar div */}
         <div className="w-[35%] relative hidden md:block ">
           <input
             className="w-[100%] px-[30px] py-[10px] border-[2px] border-[#bdbaba] outline-none overflow-auto rounded-[30px]"
@@ -64,35 +66,42 @@ const Nav = () => {
           <button className=" absolute p-[10px] bg-[#FF385C]  rounded-[50%] right-[1%] top-[3px] ">
             <CiSearch className=" w-[20px] h-[20px]  text-[#FFFFFA]  " />
           </button>
+
         </div>
+
         <div className=" flex items-center justify-center gap-[10px] relative ">
           <span className=" text-[18px] cursor-pointer rounded-[50px] hover:bg-[#FF385C] hover:text-[#FFFFFA] px-[8px] py-[5px] hidden md:block" onClick={()=> navigate("/listingpage1")} >
             List your home
           </span>
+
+          {/* menu button */}
           <button
-            className=" px-[20px] py-[10px] flex items-center justify-center border-[1px] border-[#8d8c8c] rounded-[50px] hover:shadow-lg "
+            className=" px-[10px] py-[10px] flex items-center justify-center  border-[#8d8c8c] rounded-[50px] hover:shadow-lg bg-[#FF385C] "
             onClick={() => setShowMenu((prev) => !prev)}
           >
-            <span>
-              <GiHamburgerMenu className=" w-[20px] h-[20px] " />{" "}
-            </span>
+           
             {!userData && <span>
-              <CgProfile className=" w-[20px] h-[20px] " />
+              <CgProfile className=" w-[20px] h-[20px] bg-[#cb5546] rounded-[50%]" />
             </span>}
 
-            {userData && <span className=" w-[30px] h-[30px] bg-[#080808] text-white rounded-full pb-1 flex items-center justify-center ">
-                {userData.name.slice(0,1)}
+            {userData && <span className=" w-[20px] h-[20px] text-white rounded-full pb-1 flex items-center justify-center ">
+                {userData.name.slice(0,1).toUpperCase()}
+                
             </span>}
 
           </button>
+          
           {showMenu && (
-            <div className=" w-[220px] h-[200px] absolute bg-slate-50 top-[110%] border-[1px] right-[3%] md:right-[10%] border-[#aaa9a9] z-10 rounded-lg ">
+            <div className={` w-[220px] h-${userData ? [200]:[240]} absolute bg-slate-50 top-[110%] border-[1px] right-[3%] md:right-[10%] border-[#aaa9a9] z-10 rounded-lg `}>
               <ul>
                {!userData && <li className=" w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer "onClick={()=>navigate("/login")} >
                   Login
                 </li>}
                 {userData &&<li className=" w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer " onClick={handleLogout}>
                   Logout
+                </li>}
+                {!userData && <li className=" w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer " onClick={()=>navigate("/signup")}>
+                  SignUp
                 </li>}
                 <li className=" w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer " onClick={()=> navigate("/listingpage1")}>
                   List your home

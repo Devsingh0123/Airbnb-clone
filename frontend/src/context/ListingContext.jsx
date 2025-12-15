@@ -20,16 +20,20 @@ const ListingContext = ({ children }) => {
   let [city, setCity] = useState("");
   let [landMark, setLandMark] = useState("");
   let [category, setCategory] = useState("");
-  let [dataLoading, setDataLoading] = useState(false);
+  let [dataAddingLoadder, setDataAddingLoadder] = useState(false);
+  let [dataUpdatingLoadder, setDataUpdatingLoadder] = useState(false);
+  let [dataDeletingLoadder, setDataDeletingLoadder] = useState(false);
   let [getListingData, setGetListingData] = useState([]);
   let [newGetListingData, setNewGetListingData] = useState([]);
+  let [cardDetails, setCardDetails] = useState(null);
+
 
   let { serverUrl } = useContext(authDataContext);
 
   //sending the listing data
   const handleAddlisting = async () => {
     try {
-      setDataLoading(true);
+      setDataAddingLoadder(true);
 
       let formData = new FormData();
       formData.append("title", title);
@@ -48,7 +52,7 @@ const ListingContext = ({ children }) => {
 
       console.log(result);
 
-      setDataLoading(false);
+      setDataAddingLoadder(false);
       navigate("/");
 
       setTitle("");
@@ -62,7 +66,8 @@ const ListingContext = ({ children }) => {
       setLandMark("");
       setCategory("");
     } catch (error) {
-      console.log(`lidtingContext error  ${error}`);
+       setDataAddingLoadder(false);
+      console.log(`listingContext error  ${error}`);
     }
   };
 
@@ -80,9 +85,24 @@ const ListingContext = ({ children }) => {
     }
   };
 
+  const handleViewCard = async (id)=>{
+    try {
+      let result =await axios.get(serverUrl + `/api/listing/findListingById/${id}`,{ withCredentials: true,})
+
+      // console.log(result);
+
+      setCardDetails(result.data)
+      navigate("/viewcard")
+      
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+
   useEffect(() => {
    getListing()
-  }, [])
+  }, [dataAddingLoadder,dataUpdatingLoadder,dataDeletingLoadder])
   
 
   let value = {
@@ -107,11 +127,10 @@ const ListingContext = ({ children }) => {
     category,
     setCategory,
     handleAddlisting,
-    dataLoading,
-    setDataLoading,
+    dataAddingLoadder, setDataAddingLoadder,
     getListingData,
     setGetListingData,
-    getListing,newGetListingData, setNewGetListingData
+    getListing,newGetListingData, setNewGetListingData,handleViewCard,cardDetails, setCardDetails,dataUpdatingLoadder, setDataUpdatingLoadder,dataDeletingLoadder, setDataDeletingLoadder
   };
   return (
     <div>
