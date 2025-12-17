@@ -111,7 +111,7 @@ const SignUp = () => {
             />
           )}
         </div>
-        <button className="px-[50px] py-[10px] bg-[#FF385C] text-[#FFFFFA]   text-[18px] md:px-[100px] rounded-lg ">
+        <button className="px-[50px] py-[10px] bg-[#FF385C] text-[#FFFFFA]   text-[18px] md:px-[100px] rounded-lg cursor-pointer ">
           SignUp
         </button>
         <p className="text-[18px]">Already have an acccount? <span

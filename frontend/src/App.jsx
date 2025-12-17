@@ -9,6 +9,7 @@ import ListingPage3 from './pages/ListingPage3'
 import { userDataContext } from './context/UserContext'
 import MyListing from './pages/MyListing'
 import ViewCard from './pages/ViewCard'
+import MyBooking from './pages/MyBooking'
 
 const App = () => {
 
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/listingpage3" element={userData != null ? <ListingPage3/>: <Navigate to={"/"}/> } />
         <Route path="/mylisting" element={userData != null ? <MyListing/>: <Navigate to={"/"}/> } />  
         <Route path="/viewcard" element={userData != null ? <ViewCard/>: <Navigate to={"/"}/> } />  
+        <Route path="/Mybooking" element={userData != null ? <MyBooking/>: <Navigate to={"/"}/> } />  
         */}
 
 
@@ -37,6 +39,7 @@ const App = () => {
         <Route path="/listingpage3" element={<ListingPage3/> } /> 
         <Route path="/mylisting" element={<MyListing/> } />
         <Route path="/viewcard" element={<ViewCard/> } />
+        <Route path="/Mybooking" element={<MyBooking/> } />
 
 
       </Routes>

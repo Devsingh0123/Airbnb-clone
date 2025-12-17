@@ -102,7 +102,7 @@ const LogIn = () => {
             />
           )}
         </div>
-        <button className="px-[50px] py-[10px] bg-[#FF385C] text-[#FFFFFA]   text-[18px] md:px-[100px] rounded-lg mt-[20px]">
+        <button className="px-[50px] py-[10px] bg-[#FF385C] text-[#FFFFFA]   text-[18px] md:px-[100px] rounded-lg mt-[20px] cursor-pointer">
           Login
         </button>
         <p className="text-[18px]">

@@ -5,6 +5,9 @@ import Card from "../Components/Card";
 
 const Home = () => {
   let { getListingData, setGetListingData,newGetListingData, setNewGetListingData } = useContext(listingDataContext);
+console.log(newGetListingData);
+
+
   return (
     <div>
       <Nav />
@@ -21,8 +24,11 @@ const Home = () => {
             city={list.city}
             landMark={list.landMark}
             category={list.category}
+            ratings={list.ratings}
             id={list._id}
             key={i}
+            isBooked={list.isBooked}
+            host={list.host}
             
           />
         ))}

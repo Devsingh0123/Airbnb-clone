@@ -50,7 +50,7 @@ const Nav = () => {
 
 
   return (
-    <div className=" fixed top-0 bg-white ">
+    <div className=" fixed top-0 bg-white z-[20]">
       <div className="w-[100vw] min-h-[80px] border-b-[1px] border-[#dcdcdc] px-[20px] md:px-[40px] flex justify-between items-center ">
         <div>
           <img src={Airbnb_logo} alt="Airbnb_logo" className="w-[130px]" />
@@ -81,7 +81,7 @@ const Nav = () => {
           >
            
             {!userData && <span>
-              <CgProfile className=" w-[20px] h-[20px] bg-[#cb5546] rounded-[50%]" />
+              <CgProfile className=" w-[20px] h-[20px] bg-[#cb5546] text-[#FFFFFA] rounded-[50%]" />
             </span>}
 
             {userData && <span className=" w-[20px] h-[20px] text-white rounded-full pb-1 flex items-center justify-center ">

@@ -5,20 +5,25 @@ import { FaLongArrowAltLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { userDataContext } from "../context/UserContext";
 import { use } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { RxCross1 } from "react-icons/rx";
 import axios from "axios";
 import { authDataContext } from "../context/AuthContext";
+import { CiStar } from "react-icons/ci";
+import { bookingDataContext } from "../context/BookingContext";
 
 const ViewCard = () => {
   let navigate = useNavigate();
   let [editListingPopUp, setEditListingPopUp] = useState(false);
+  let [bookingPopUp, setBookingPopUp] = useState(false);
 
   let {
     cardDetails,
     setCardDetails,
     dataUpdatingLoadder,
-    setDataUpdatingLoadder,dataDeletingLoadder, setDataDeletingLoadder
+    setDataUpdatingLoadder,
+    dataDeletingLoadder,
+    setDataDeletingLoadder,
   } = useContext(listingDataContext);
   let { userData } = useContext(userDataContext);
   let { serverUrl } = useContext(authDataContext);
@@ -30,6 +35,40 @@ const ViewCard = () => {
   let [rent, setRent] = useState(cardDetails.rent);
   let [city, setCity] = useState(cardDetails.city);
   let [landMark, setLandMark] = useState(cardDetails.landMark);
+  let [minDate, setMinDate] = useState("");
+
+  let {
+    checkIn,
+    setCheckIn,
+    checkOut,
+    setCheckOut,
+    total,
+    setTotal,
+    night,
+    setNight,
+    bookingData,
+    setBookingData,
+    handleBooking,
+  } = useContext(bookingDataContext);
+
+  useEffect(() => {
+    if (checkIn && checkOut) {
+      let inDate = new Date(checkIn);
+      let outDate = new Date(checkOut);
+      let stayTime = (outDate - inDate) / (24 * 60 * 60 * 1000);
+      setNight(stayTime);
+      let airBnbCharge = stayTime * cardDetails.rent * (5 / 100);
+      let tax = stayTime * cardDetails.rent * (5 / 100);
+
+      let totalBill = stayTime * cardDetails.rent + airBnbCharge + tax;
+
+      if (stayTime > 0) {
+        setTotal(totalBill);
+      } else {
+        setTotal(0);
+      }
+    }
+  }, [checkIn, checkOut, cardDetails, rent, total]);
 
   //sending the listing data
   const handleUpdatelisting = async () => {
@@ -90,22 +129,26 @@ const ViewCard = () => {
   // delete listing handler function
   const handleDeleteListing = async () => {
     try {
-      setDataDeletingLoadder(true)
+      setDataDeletingLoadder(true);
       let result = await axios.delete(
         serverUrl + `/api/listing/deleteListingById/${cardDetails._id}`,
         {
           withCredentials: true,
         }
       );
-        setDataDeletingLoadder(false)
-        navigate("/")
+      setDataDeletingLoadder(false);
+      navigate("/");
       console.log(result.data);
-      
     } catch (error) {
-      setDataDeletingLoadder(false)
-      console.log(`handleDeleteListing error ${error}`)
+      setDataDeletingLoadder(false);
+      console.log(`handleDeleteListing error ${error}`);
     }
   };
+
+  useEffect(() => {
+    let today = new Date().toISOString().split("T")[0];
+    setMinDate(today);
+  }, []);
 
   return (
     <div className=" w-[100vw] h-[100vh]  flex items-center justify-center relative overflow-auto ">
@@ -116,12 +159,12 @@ const ViewCard = () => {
         <FaLongArrowAltLeft className="w-[20px] h-[20px] text-[#FFFFFA] md:w-[25px] md:h-[25px] " />
       </div>
 
-      <div className=" w-[95%] flex items-start justify-start text-[25px] md:w-[80%] mb-[10px]  flex-col mt-[10%] md:mt-0">
+      <div className=" w-[95%] flex items-start justify-start text-[25px] md:w-[80%] mb-[10px]  flex-col mt-[10%] ml-[8%] md:mt-0">
         <h1 className=" text-[20px] text-[#272727] md:text-[30px] text-ellipsis text-nowrap overflow-hidden ">
-          {`In  ${cardDetails.landMark.toUpperCase()}, ${cardDetails.city.toUpperCase()} `}
+          {`IN  ${cardDetails.landMark.toUpperCase()}, ${cardDetails.city.toUpperCase()} `}
         </h1>
 
-        <div className=" w-[95%] h-[400px] flex items-center justify-center flex-col md:w-[80%] md:flex-row  ">
+        <div className=" w-[100%] h-[400px] flex items-center justify-center flex-col md:w-[90%] md:flex-row  ">
           <div className=" w-[100%] h-[65%] md:w-[70%] md:h-[100%] overflow-hidden flex items-center justify-center border-[2px] border-white ">
             <img src={cardDetails.image1} alt="image" className="w-[100%]" />
           </div>
@@ -130,6 +173,7 @@ const ViewCard = () => {
             <div className=" w-[100%] h-[100%] overflow-hidden flex items-center justify-center border-[2px]  ">
               <img src={cardDetails.image2} alt="image" className="w-[100%]" />
             </div>
+
             <div className=" w-[100%] h-[100%] overflow-hidden flex items-center justify-center border-[2px]  ">
               <img src={cardDetails.image2} alt="image" className="w-[100%]" />
             </div>
@@ -157,7 +201,10 @@ const ViewCard = () => {
           </button>
         )}
         {cardDetails.host != userData._id && (
-          <button className="px-[50px] py-[10px] bg-[#FF385C] text-[#FFFFFA]   text-[18px] md:px-[100px] rounded-lg mt-[15px]  right-[10%] bottom-[10%] ">
+          <button
+            className="px-[50px] py-[10px] bg-[#FF385C] text-[#FFFFFA]   text-[18px] md:px-[100px] rounded-lg mt-[15px]  right-[10%] bottom-[10%] "
+            onClick={() => setBookingPopUp((prev) => !prev)}
+          >
             Book Now
           </button>
         )}
@@ -300,10 +347,124 @@ const ViewCard = () => {
                   onClick={handleDeleteListing}
                   disabled={dataDeletingLoadder}
                 >
-                  {dataDeletingLoadder?"Deleting...":"Delete Listing"}
+                  {dataDeletingLoadder ? "Deleting..." : "Delete Listing"}
                 </button>
               </div>
             </form>
+          </div>
+        )}
+
+        {/* edit or update listing popUp */}
+        {bookingPopUp && (
+          <div className=" w-[100vw] h-[100vh] flex items-center justify-center bg-[#ffffffcd] absolute top-[0px] left-[0%] z-[100] ">
+            <RxCross1
+              className="w-[30px] h-[30px] cursor-pointer bg-[#FF385C] absolute  top-[5%] right-[5%] md:w-[50px] md:h-[50px] md:top-[5%] md:right-[5%]  rounded-[50%] flex items-center justify-center text-white p-1.5 "
+              onClick={() => setBookingPopUp(false)}
+            />
+
+            <form
+              action=""
+              className=" max-w-[450px] w-[90%] h-[450px] overflow-auto bg-[#f3f1f1] p-[20px] rounded-lg flex items-center justify-start flex-col gap-[10px] border-[1px] border-[#dedddd] "
+              onSubmit={(e) => {
+                e.preventDefault();
+                navigate("/");
+              }}
+            >
+              <h1 className=" w-[100%] flex items-center justify-center py-[10px] border-b-[1px] border-[#a3a3a3] ">
+                Book and Confirm
+              </h1>
+
+              <div className=" w-[100%] h-[80%] mt-[10px] rounded-lg p-[10px]">
+                <h3 className=" text-[19px] font-semibold  ">
+                  Trip Details :-
+                </h3>
+
+                <div className="w-[90%] flex items-start justify-start gap-[10px] md:gap-[25px] flex-col  md:flex-row md:items-center mt-[30px] ">
+                  <label className="text-[20px] " htmlFor="checkIn">
+                    CheckIn
+                  </label>
+                  <input
+                    className="w-[100%] h-[40px] border-2 border-[#555656] rounded-[10px] px-[10px] text-[18px] bg-transparent "
+                    type="date"
+                    id="checkIn"
+                    min={minDate}
+                    required
+                    onChange={(e) => setCheckIn(e.target.value)}
+                    value={checkIn}
+                  />
+                </div>
+
+                <div className="w-[90%] flex items-start justify-start gap-[10px] flex-col  md:flex-row md:items-center mt-[20px] ">
+                  <label className="text-[20px] " htmlFor="checkOut">
+                    Checkout
+                  </label>
+                  <input
+                    className="w-[100%] h-[40px] border-2 border-[#555656] rounded-[10px] px-[10px] text-[18px] bg-transparent "
+                    type="date"
+                    id="checkOut"
+                    min={minDate}
+                    required
+                    onChange={(e) => setCheckOut(e.target.value)}
+                    value={checkOut}
+                  />
+                </div>
+                <div className=" w-[90%] flex items-center justify-end ">
+                  <button
+                    className="px-[30px] py-[10px] bg-[#FF385C] text-[#FFFFFA]   text-[18px] md:px-[90px] rounded-lg mt-[20px] text-nowrap"
+                    onClick={() => handleBooking(cardDetails._id)}
+                  >
+                    Book now
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <div className=" max-w-[450px] w-[90%] h-[450px] overflow-auto bg-[#f3f1f1] p-[20px] rounded-lg flex items-center justify-start flex-col gap-[10px] border-[1px] border-[#dedddd] ml-[30px]">
+              <div className=" w-[95%] h-[30%] border-[1px] border-[#9b9a9a] rounded-lg flex items-center justify-center gap-[8px] p-[20px] overflow-hidden ">
+                <div className=" w-[70px] h-[90px] flex items-center justify-center shrink-0 rounded-lg md:w-[100px] md:h-[100px]  ">
+                  <img
+                    className=" w-[100%] h-[100%] rounded-lg "
+                    src={cardDetails.image1}
+                    alt="image"
+                  />
+                </div>
+                <div className=" w-[80%] h-[100px] text-[18px] ">
+                  <h1 className=" w-[90%] truncate  ">
+                    {`IN  ${cardDetails.landMark.toUpperCase()}, ${cardDetails.city.toUpperCase()} `}
+                  </h1>
+                  <h1>{`IN  ${cardDetails.title.toUpperCase()}`}</h1>
+                  <h1>{`IN  ${cardDetails.landMark.toUpperCase()}`}</h1>
+
+                  <h1 className=" flex items-center justify-start gap-[5px]">
+                    <CiStar className=" text-[#FF385C] " />
+                    {cardDetails.ratings}
+                  </h1>
+                </div>
+              </div>
+
+              <div className=" w-[95%] h-[60%] border-[1px] border-[#9b9a9a] rounded-lg  flex justify-start items-start p-[20px] gap-[15px] flex-col ">
+                <h1 className=" text-[22px] font-semibold ">Booking Price -</h1>
+                <p className=" w-[100%] flex justify-between items-center px-[20px] text-[16px] ">
+                  <span className="font-semibold">{`₹${cardDetails.rent} X ${night} nights`}</span>
+                  <span>{cardDetails.rent * night}</span>
+                </p>
+
+                <p className=" w-[100%] flex justify-between items-center px-[20px] text-[16px] ">
+                  <span className="font-semibold">Airbnb Charge (5%)</span>
+                  <span>{cardDetails.rent * night * (5 / 100)}</span>
+                </p>
+
+                <p className=" w-[100%] flex justify-between items-center px-[20px] border-b-[1px] border-gray-500 pb-[10px] text-[16px] ">
+                  <span className="font-semibold">Tax (5%)</span>
+                  <span>{cardDetails.rent * night * (5 / 100)}</span>
+                </p>
+
+                <p className=" w-[100%] flex justify-between items-center px-[20px] text-[16px]">
+                  <span className="font-semibold">Total Price</span>
+                  <span>{total}</span>
+                </p>
+              </div>
+            </div>
           </div>
         )}
       </div>

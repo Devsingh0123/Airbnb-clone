@@ -40,6 +40,10 @@ const MyListing = () => {
             category={list.category}
             id={list._id}
             key={i}
+            isBooked={list.isBooked}
+            host={list.host}
+            ratings={list.ratings}
+
             
           />
         ))}
