@@ -37,7 +37,7 @@ const LogIn = () => {
         },
         { withCredentials: true }
       );
-      // console.log(result.data);
+      console.log(result.data);
       toast.success("Login successful")
       setUserData(result.data);
       navigate("/");

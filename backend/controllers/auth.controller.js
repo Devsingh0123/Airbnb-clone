@@ -54,6 +54,7 @@ export const logIn = async (req, res) => {
 
     let token = genToken(user._id);
     res.cookie("token", token, {
+      
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
