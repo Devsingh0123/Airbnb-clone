@@ -15,8 +15,8 @@ let port = process.env.PORT || 7000;
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({ 
-  // origin: "http://localhost:5173", // your frontend URL
-  origin: "https://airbnb-clone-1-nqmg.onrender.com",
+  origin: "http://localhost:5173", // your frontend URL
+  // origin: "https://airbnb-clone-1-nqmg.onrender.com",
   credentials: true
 }))
 

@@ -5,8 +5,8 @@ export const authDataContext = createContext();
 
 const AuthContext = ({children}) => {
  
-    // let serverUrl = "http://localhost:5000"
-    let serverUrl = "https://airbnb-clone-jxp1.onrender.com"
+    let serverUrl = "http://localhost:5000"
+    // let serverUrl = "https://airbnb-clone-jxp1.onrender.com"
      let value={
             serverUrl
         }
