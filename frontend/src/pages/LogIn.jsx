@@ -7,6 +7,7 @@ import { FaLongArrowAltLeft } from "react-icons/fa";
 import { authDataContext } from "../context/AuthContext";
 import axios from "axios";
 import { userDataContext } from "../context/UserContext";
+import { toast } from "react-toastify";
 
 
 const LogIn = () => {
@@ -37,12 +38,14 @@ const LogIn = () => {
         { withCredentials: true }
       );
       // console.log(result.data);
+      toast.success("Login successful")
       setUserData(result.data);
       navigate("/");
       setEmail("")
       setPassword("")
     } catch (error) {
       console.log(error);
+      toast.error("Give valid credentials")
       
     }
   };

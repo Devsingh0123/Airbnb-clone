@@ -17,6 +17,7 @@ import { userDataContext } from "../context/UserContext";
 import { authDataContext } from "../context/AuthContext";
 import axios from "axios";
 import { listingDataContext } from "../context/ListingContext";
+import { toast } from "react-toastify";
 
 const Nav = () => {
   let [showMenu, setShowMenu] = useState(false);
@@ -31,10 +32,13 @@ const Nav = () => {
     try {
       
       let result = await axios.post(serverUrl + "/api/auth/logout", {},{withCredentials:true})
+
+      toast.success("Logout successfully")
       setUserData(null);
       console.log(result);
       
     } catch (error) {
+      toast.error("something went wrong while loging out")
       console.log(error);
       
     }

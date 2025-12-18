@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 import { authDataContext } from "../context/AuthContext";
 import axios from "axios"
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   let [show, setShow] = useState(false);
@@ -28,7 +29,9 @@ const SignUp = () => {
             password
         },{withCredentials: true})
         console.log(result.data);
+        toast.success()
         navigate("/login")
+        toast.success("SignUp successful")
 
         setName("")
         setEmail("")
@@ -36,6 +39,7 @@ const SignUp = () => {
         
       } catch (error) {
         console.log(error);
+        toast.success("Wrong credentials")
         
       }
     }

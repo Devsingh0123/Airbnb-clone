@@ -58,11 +58,11 @@ export const findListing = async (req, res) => {
     let { id } = req.params;
     let listing = await Listing.findById(id);
     if (!listing) {
-      res.status(404).json({ message: "listing not found" });
+     return res.status(404).json({ message: "listing not found" });
     }
     return res.status(200).json(listing);
   } catch (error) {
-    return res.status(500).json(`findListing error ${error}`);
+    return res.status(500).json({message:`findListing error ${error}`});
   }
 };
 
@@ -102,8 +102,9 @@ export const deleteListing =async (req, res) => {
     let {id} = req.params
     
     let listing = await Listing.findByIdAndDelete(id)
+    // console.log(listing.host);
     
-    let user = await findByIdAndUpdate(listing.host,{
+    let user = await User.findByIdAndUpdate(listing.host,{
       $pull:{listing:listing._id}
     },{new:true})
     if(!user){
@@ -114,3 +115,22 @@ export const deleteListing =async (req, res) => {
     return res.status(500).json({message:`error in deleting the list ${error}`})
   }
 };
+
+// catch ratings
+
+export const ratingListing = async (req,res) =>{
+  try {
+    let {id } = req.params
+    let {ratings} =req.body
+    let listing = await Listing.findById(id)
+    if (!listing){
+     return res.status(404).json({ message: "listing not found" });
+
+    }
+    listing.ratings= Number(ratings)
+    await listing.save()
+     return res.status(200).json({message:`RatingListing   ${listing.ratings}`})
+  } catch (error) {
+    return res.status(500).json({message:`RatingListing  error ${error}`});
+  }
+} 

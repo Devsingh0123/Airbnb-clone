@@ -5,6 +5,7 @@ import { authDataContext } from "./AuthContext";
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 export const userDataContext = createContext();
 
 const UserContext = ({ children }) => {
@@ -19,10 +20,12 @@ const UserContext = ({ children }) => {
       let result = await axios.get(serverUrl + "/api/user/currentuser", {
         withCredentials: true,
       });
+      toast.success("find current user successful")
       // console.log(result.data);
 
       setUserData(result.data)
     } catch (error) {
+      toast.error("current user not found")
       setUserData(null);
       console.log(error);
     } 

@@ -1,51 +1,47 @@
-import React, { useContext } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
-import Home from './pages/Home'
-import LogIn from './pages/LogIn'
-import SignUp from './pages/SignUp'
-import ListingPage1 from './pages/ListingPage1'
-import ListingPage2 from './pages/ListingPage2'
-import ListingPage3 from './pages/ListingPage3'
-import { userDataContext } from './context/UserContext'
-import MyListing from './pages/MyListing'
-import ViewCard from './pages/ViewCard'
-import MyBooking from './pages/MyBooking'
-
+import React, { useContext } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import LogIn from "./pages/LogIn";
+import SignUp from "./pages/SignUp";
+import ListingPage1 from "./pages/ListingPage1";
+import ListingPage2 from "./pages/ListingPage2";
+import ListingPage3 from "./pages/ListingPage3";
+import { userDataContext } from "./context/UserContext";
+import MyListing from "./pages/MyListing";
+import ViewCard from "./pages/ViewCard";
+import MyBooking from "./pages/MyBooking";
+import Booked from "./pages/Booked";
+import { ToastContainer, toast } from "react-toastify";
 const App = () => {
+  let { userData } = useContext(userDataContext);
 
-  let {userData} = useContext(userDataContext)
-  
   return (
     <>
+      <ToastContainer />
       <Routes>
-        <Route path="/" element={<Home/>} />
-        <Route path="/login" element={<LogIn/>} />
-        <Route path="/signup" element={<SignUp/>} />
-        
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LogIn />} />
+        <Route path="/signup" element={<SignUp />} />
+
         {/* <Route path="/listingpage1" element={userData != null ? <ListingPage1/>: <Navigate to={"/"}/> } />
         <Route path="/listingpage2" element={userData != null ? <ListingPage2/>: <Navigate to={"/"}/> } />
         <Route path="/listingpage3" element={userData != null ? <ListingPage3/>: <Navigate to={"/"}/> } />
         <Route path="/mylisting" element={userData != null ? <MyListing/>: <Navigate to={"/"}/> } />  
         <Route path="/viewcard" element={userData != null ? <ViewCard/>: <Navigate to={"/"}/> } />  
-        <Route path="/Mybooking" element={userData != null ? <MyBooking/>: <Navigate to={"/"}/> } />  
+        <Route path="/mybooking" element={userData != null ? <MyBooking/>: <Navigate to={"/"}/> } />  
+        <Route path="/booked" element={userData != null ? <Booked/>: <Navigate to={"/"}/> } />  
         */}
 
-
-
-
-
-        <Route path="/listingpage1" element={<ListingPage1/> } />
-        <Route path="/listingpage2" element={<ListingPage2/> } />
-        <Route path="/listingpage3" element={<ListingPage3/> } /> 
-        <Route path="/mylisting" element={<MyListing/> } />
-        <Route path="/viewcard" element={<ViewCard/> } />
-        <Route path="/Mybooking" element={<MyBooking/> } />
-
-
+        <Route path="/listingpage1" element={<ListingPage1 />} />
+        <Route path="/listingpage2" element={<ListingPage2 />} />
+        <Route path="/listingpage3" element={<ListingPage3 />} />
+        <Route path="/mylisting" element={<MyListing />} />
+        <Route path="/viewcard" element={<ViewCard />} />
+        <Route path="/mybooking" element={<MyBooking />} />
+        <Route path="/booked" element={<Booked />} />
       </Routes>
     </>
-  )
-}
+  );
+};
 
-export default App
-
+export default App;

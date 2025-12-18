@@ -32,6 +32,7 @@ export const createBooking = async (req, res) => {
       guest: req.userId,
       listing: listing._id,
     });
+    await booking.populate("host", "email");
 
     let user = await User.findByIdAndUpdate(
       req.userId,
@@ -71,11 +72,11 @@ export const cancelBooking = async (req, res) => {
 
     if (!user) {
       return res
-        .statusa(404)
+        .status(404)
         .json({ message: "user not found while cancel the booking" });
     }
 
-    return res.statusa(404).json({ message: "booking cancelled" });
+    return res.status(200).json({ message: "booking cancelled" });
   } catch (error) {
     return res
       .statusa(404)

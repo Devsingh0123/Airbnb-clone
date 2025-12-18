@@ -4,6 +4,7 @@ import axios from "axios";
 import { authDataContext } from "./AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 export const listingDataContext = createContext();
 
@@ -78,9 +79,11 @@ const ListingContext = ({ children }) => {
       let result = await axios.get(serverUrl + "/api/listing/get", {
         withCredentials: true,
       });
+      toast.success("get all Listing data successful")
       setGetListingData(result.data);
       setNewGetListingData(result.data);
     } catch (error) {
+      toast.error("something went wrong while getting all list data")
       console.log("error in getListingData", error);
     }
   };
@@ -88,13 +91,14 @@ const ListingContext = ({ children }) => {
   const handleViewCard = async (id)=>{
     try {
       let result =await axios.get(serverUrl + `/api/listing/findListingById/${id}`,{ withCredentials: true,})
-
+         toast.success("get Listing successful")
       // console.log(result);
 
       setCardDetails(result.data)
       navigate("/viewcard")
       
     } catch (error) {
+      toast.error("something went wrong while getting list")
       console.log(error);
     }
 

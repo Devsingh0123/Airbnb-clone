@@ -11,6 +11,7 @@ import axios from "axios";
 import { authDataContext } from "../context/AuthContext";
 import { CiStar } from "react-icons/ci";
 import { bookingDataContext } from "../context/BookingContext";
+import { toast } from "react-toastify";
 
 const ViewCard = () => {
   let navigate = useNavigate();
@@ -48,7 +49,7 @@ const ViewCard = () => {
     setNight,
     bookingData,
     setBookingData,
-    handleBooking,
+    handleBooking,bookingDataloader, setBookingDataloader,
   } = useContext(bookingDataContext);
 
   useEffect(() => {
@@ -96,6 +97,7 @@ const ViewCard = () => {
       );
 
       // console.log(result);
+      toast.success("Listing updated successfully")
 
       setDataUpdatingLoadder(false);
       navigate("/");
@@ -109,6 +111,7 @@ const ViewCard = () => {
       setCity("");
       setLandMark("");
     } catch (error) {
+      toast.error("somthing went wrong, please fill valid credentials")
       setDataUpdatingLoadder(false);
       console.log(`handleUpdateListing error  ${error}`);
     }
@@ -128,6 +131,8 @@ const ViewCard = () => {
 
   // delete listing handler function
   const handleDeleteListing = async () => {
+    // console.log(cardDetails._id);
+    
     try {
       setDataDeletingLoadder(true);
       let result = await axios.delete(
@@ -136,10 +141,13 @@ const ViewCard = () => {
           withCredentials: true,
         }
       );
+      console.log(result.data);
       setDataDeletingLoadder(false);
       navigate("/");
-      console.log(result.data);
+      toast.success("Listing deleted successfully")
+      
     } catch (error) {
+      toast.error("something went wrong while delete listing")
       setDataDeletingLoadder(false);
       console.log(`handleDeleteListing error ${error}`);
     }
@@ -204,8 +212,9 @@ const ViewCard = () => {
           <button
             className="px-[50px] py-[10px] bg-[#FF385C] text-[#FFFFFA]   text-[18px] md:px-[100px] rounded-lg mt-[15px]  right-[10%] bottom-[10%] "
             onClick={() => setBookingPopUp((prev) => !prev)}
+            disabled={bookingDataloader}
           >
-            Book Now
+            {bookingDataloader? "Booking...":"Book Now"}
           </button>
         )}
 
@@ -334,16 +343,16 @@ const ViewCard = () => {
                 />
               </div>
 
-              <div className=" w-[90%] flex justify-between items-center">
+              <div className=" w-[90%]  md:flex md:justify-between  md:items-center">
                 <button
-                  className="px-[50px] py-[10px] bg-[#FF385C] text-[#FFFFFA]   text-[18px] md:px-[100px] rounded-lg mt-[20px] text-nowrap"
+                  className="px-[25px] py-[10px] bg-[#FF385C] text-[#FFFFFA]   text-[18px] md:px-[100px] rounded-lg mt-[20px] text-nowrap"
                   onClick={handleUpdatelisting}
                   disabled={dataUpdatingLoadder}
                 >
                   {dataUpdatingLoadder ? "Updating..." : "Update Listing"}
                 </button>
                 <button
-                  className="px-[50px] py-[10px] bg-[#FF385C] text-[#FFFFFA]   text-[18px] md:px-[100px] rounded-lg mt-[20px] text-nowrap"
+                  className="px-[25px] py-[10px] bg-[#FF385C] text-[#FFFFFA]   text-[18px] md:px-[100px] rounded-lg mt-[20px] text-nowrap"
                   onClick={handleDeleteListing}
                   disabled={dataDeletingLoadder}
                 >

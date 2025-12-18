@@ -3,6 +3,8 @@ import React, { Children, createContext, useContext, useState } from "react";
 import { authDataContext } from "./AuthContext";
 import { userDataContext } from "./UserContext";
 import { listingDataContext } from "./ListingContext";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const bookingDataContext = createContext();
 
@@ -13,15 +15,17 @@ const BookingContext = ({ children }) => {
   let [night, setNight] = useState(0);
   let { serverUrl } = useContext(authDataContext);
   let { getCurrentUser } = useContext(userDataContext);
-  let {getListing} = useContext(listingDataContext)
+  let { getListing } = useContext(listingDataContext);
+  let navigate=useNavigate()
 
-  let [bookingData, setBookingData] =useState([])
-
+  let [bookingData, setBookingData] = useState([]);
+  let [bookingDataloader, setBookingDataloader] = useState(false);
 
   // for creating the booking
   const handleBooking = async (id) => {
     try {
-      let result =await axios.post(
+      setBookingDataloader(true);
+      let result = await axios.post(
         serverUrl + `/api/booking/create/${id}`,
         {
           checkIn,
@@ -30,40 +34,43 @@ const BookingContext = ({ children }) => {
         },
         { withCredentials: true }
       );
-      await getCurrentUser()
-      await getListing()
-      setBookingData(result.data)
+
+      toast.success("booking created successfully")
+      await getCurrentUser();
+      await getListing();
+      setBookingData(result.data);
       // console.log(result.data);
-      
 
-
+      setBookingDataloader(false);
+      navigate("/booked")
     } catch (error) {
-
-        setBookingData(null)
-        console.log(error);
-        
+      toast.error("something went wrong while booking")
+      setBookingData(null);
+      console.log(error);
+      setBookingDataloader(false);
     }
   };
 
   // for cancel the booking
 
-  const cancelBooking = async (id)=>{
+  const cancelBooking = async (id) => {
     try {
-      
-      let result =await axios.delete(
+      let result = await axios.delete(
         serverUrl + `/api/booking/cancel/${id}`,
-       
+
         { withCredentials: true }
       );
-      await getCurrentUser()
-      await getListing()
-      setBookingData(result.data)
+       toast.success("booking cancelled successfully")
       console.log(result.data);
-    } catch (error) {
-      console.log(error);
+      await getCurrentUser();
+      await getListing();
+      setBookingData(result.data);
       
+    } catch (error) {
+      toast.error("something went wrong while cancel booking")
+      console.log(error);
     }
-  }
+  };
 
   let value = {
     checkIn,
@@ -74,8 +81,12 @@ const BookingContext = ({ children }) => {
     setTotal,
     night,
     setNight,
-    bookingData, setBookingData,
-    handleBooking,cancelBooking
+    bookingData,
+    setBookingData,
+    handleBooking,
+    cancelBooking,
+    bookingDataloader,
+    setBookingDataloader,
   };
   return (
     <div>

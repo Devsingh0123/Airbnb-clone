@@ -5,12 +5,14 @@ import { userDataContext } from "../context/UserContext";
 import Card from "../Components/Card";
 
 
-const MyBooking = () => {s
+const MyBooking = () => {
 
     let navigate = useNavigate();
     let {userData} =useContext(userDataContext)
 
-    console.log(userData)
+
+
+    // console.log(userData)
      
   return (
     <div className="w-screen h-screen flex items-center justify-start gap-[50px] relative flex-col">
