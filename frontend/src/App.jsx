@@ -23,22 +23,22 @@ const App = () => {
         <Route path="/login" element={<LogIn />} />
         <Route path="/signup" element={<SignUp />} />
 
-        {/* <Route path="/listingpage1" element={userData != null ? <ListingPage1/>: <Navigate to={"/"}/> } />
+        <Route path="/listingpage1" element={userData != null ? <ListingPage1/>: <Navigate to={"/"}/> } />
         <Route path="/listingpage2" element={userData != null ? <ListingPage2/>: <Navigate to={"/"}/> } />
         <Route path="/listingpage3" element={userData != null ? <ListingPage3/>: <Navigate to={"/"}/> } />
         <Route path="/mylisting" element={userData != null ? <MyListing/>: <Navigate to={"/"}/> } />  
         <Route path="/viewcard" element={userData != null ? <ViewCard/>: <Navigate to={"/"}/> } />  
         <Route path="/mybooking" element={userData != null ? <MyBooking/>: <Navigate to={"/"}/> } />  
         <Route path="/booked" element={userData != null ? <Booked/>: <Navigate to={"/"}/> } />  
-        */}
+        
 
-        <Route path="/listingpage1" element={<ListingPage1 />} />
+        {/* <Route path="/listingpage1" element={<ListingPage1 />} />
         <Route path="/listingpage2" element={<ListingPage2 />} />
         <Route path="/listingpage3" element={<ListingPage3 />} />
         <Route path="/mylisting" element={<MyListing />} />
         <Route path="/viewcard" element={<ViewCard />} />
         <Route path="/mybooking" element={<MyBooking />} />
-        <Route path="/booked" element={<Booked />} />
+        <Route path="/booked" element={<Booked />} /> */}
       </Routes>
     </>
   );
