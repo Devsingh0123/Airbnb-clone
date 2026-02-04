@@ -2,10 +2,11 @@ import React, { useContext } from "react";
 import Nav from "../Components/Nav";
 import { listingDataContext } from "../context/ListingContext";
 import Card from "../Components/Card";
+import Loader from "../Components/Loader";
 
 const Home = () => {
-  let { getListingData, setGetListingData,newGetListingData, setNewGetListingData } = useContext(listingDataContext);
-console.log(newGetListingData);
+  let { getListingData, setGetListingData,newGetListingData, setNewGetListingData,getListingLoader, setGetListingLoader } = useContext(listingDataContext);
+// console.log(newGetListingData);
 
 
   return (
@@ -14,7 +15,8 @@ console.log(newGetListingData);
 
       
       <div className=" w-[100vw] h-[75vh] flex items-center justify-center gap-[25px] flex-wrap mt-[250px] md:mt-[180px] ">
-        {newGetListingData.map((list, i) => (
+
+        {getListingLoader?(<Loader/>): (newGetListingData.map((list, i) => (
           <Card
             title={list.title}
             description={list.description}
@@ -31,7 +33,8 @@ console.log(newGetListingData);
             host={list.host}
             
           />
-        ))}
+        )))}
+        
       </div>
     </div>
   );

@@ -25,6 +25,7 @@ const ListingContext = ({ children }) => {
   let [dataUpdatingLoadder, setDataUpdatingLoadder] = useState(false);
   let [dataDeletingLoadder, setDataDeletingLoadder] = useState(false);
   let [getListingData, setGetListingData] = useState([]);
+  let [getListingLoader, setGetListingLoader] = useState([]);
   let [newGetListingData, setNewGetListingData] = useState([]);
   let [cardDetails, setCardDetails] = useState(null);
 
@@ -51,7 +52,7 @@ const ListingContext = ({ children }) => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      console.log(result);
+      // console.log(result);
 
       setDataAddingLoadder(false);
       navigate("/");
@@ -76,15 +77,19 @@ const ListingContext = ({ children }) => {
 
   const getListing = async () => {
     try {
+      setGetListingLoader(true)
       let result = await axios.get(serverUrl + "/api/listing/get", {
         withCredentials: true,
       });
-      toast.success("get all Listing data successful")
+      // toast.success("get all Listing data successful")
+      setGetListingLoader(false)
       setGetListingData(result.data);
       setNewGetListingData(result.data);
+      
     } catch (error) {
       toast.error("something went wrong while getting all list data")
-      console.log("error in getListingData", error);
+      setGetListingLoader(false)
+      // console.log("error in getListingData", error);
     }
   };
 
@@ -134,7 +139,8 @@ const ListingContext = ({ children }) => {
     dataAddingLoadder, setDataAddingLoadder,
     getListingData,
     setGetListingData,
-    getListing,newGetListingData, setNewGetListingData,handleViewCard,cardDetails, setCardDetails,dataUpdatingLoadder, setDataUpdatingLoadder,dataDeletingLoadder, setDataDeletingLoadder
+    getListing,newGetListingData, setNewGetListingData,handleViewCard,cardDetails, setCardDetails,dataUpdatingLoadder, setDataUpdatingLoadder,dataDeletingLoadder, setDataDeletingLoadder,
+    getListingLoader, setGetListingLoader
   };
   return (
     <div>

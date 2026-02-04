@@ -84,7 +84,8 @@ const Nav = () => {
             onClick={() => setShowMenu((prev) => !prev)}
           >
            
-            {!userData && <span>
+            {!userData && <span className="text-white flex justify-center items-center gap-2">
+              <GiHamburgerMenu/>
               <CgProfile className=" w-[20px] h-[20px] bg-[#cb5546] text-[#FFFFFA] rounded-[50%]" />
             </span>}
 
